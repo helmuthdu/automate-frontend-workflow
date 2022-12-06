@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "lint": "npm run lint:css && npm run lint:js",
+    "lint:report": "eslint --ext .jsx,.js,.ts,.tsx,.vue --fix --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif src",
     "lint:js": "eslint --ext .jsx,.js,.ts,.tsx,.vue --fix src",
     "lint:css": "stylelint --fix src/**/*.{css,scss,vue}"
   },
@@ -16,6 +17,7 @@
     "vue": "^3.2.45"
   },
   "devDependencies": {
+    "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.45.1",
     "@vitejs/plugin-vue": "^3.2.0",
