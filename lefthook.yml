@@ -1,0 +1,25 @@
+pre-commit:
+  parallel: true
+  commands:
+    app:lint:assets:
+      root: "packages/app/"
+      glob: '*.{html,json,yml}'
+      run: npx prettier --write {staged_files}
+    app:lint:styles:
+      root: "packages/app/"
+      glob: '*.{css,scss}'
+      run: >
+        npx prettier --write {staged_files} &&
+        npx stylelint --fix {staged_files}
+    app:lint:scripts:
+      root: "packages/app/"
+      glob: '*[!.{spec,test}].{[tj]s,[tj]sx}'
+      run: >
+        npx eslint --fix {staged_files} && 
+        npx vitest related {staged_files} --passWithNoTests --run --environment jsdom
+    app:test:unit:
+      root: "packages/app/"
+      glob: '*.{spec,test}.{[tj]s,[tj]sx}'
+      run: >
+        npx eslint --fix {staged_files} &&
+        npx vitest {staged_files} --run --environment jsdom

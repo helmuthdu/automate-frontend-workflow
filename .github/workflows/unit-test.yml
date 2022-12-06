@@ -1,0 +1,29 @@
+name: Unit Test
+
+on:
+  push:
+    branches: [$default-branch, $protected-branches]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [$default-branch]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test -ws

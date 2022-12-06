@@ -1,0 +1,38 @@
+{
+  "name": "github-actions",
+  "version": "1.0.0",
+  "description": "Useful Github actions for Front-end Development",
+  "main": "index.js",
+  "scripts": {
+    "lint": "npm run lint -ws",
+    "test": "npm test -ws"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helmuthdu/github-actions.git"
+  },
+  "keywords": [
+    "github-actions"
+  ],
+  "author": "Helmuth Saatkamp <helmuthdu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/helmuthdu/github-actions/issues"
+  },
+  "homepage": "https://github.com/helmuthdu/github-actions#readme",
+  "devDependencies": {
+    "@microsoft/eslint-formatter-sarif": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.1",
+    "@typescript-eslint/parser": "^5.45.1",
+    "eslint": "^8.29.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "lefthook": "^1.2.4",
+    "prettier": "^2.8.0",
+    "typescript": "^4.9.3",
+    "vitest": "^0.25.4"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
