@@ -37,6 +37,18 @@ module.exports = {
       env: {
         jest: true
       }
+    },
+    {
+      files: ['packages/app/src/**/*.[jt]s?(x)', 'packages/app/src/**/*.vue'],
+      parser: 'vue-eslint-parser',
+      parserOptions: {
+        extraFileExtensions: ['.vue'],
+        ecmaFeatures: {
+          jsx: true
+        },
+        ecmaVersion: 2021
+      },
+      extends: ['plugin:vue/vue3-recommended', '@vue/typescript/recommended', 'plugin:prettier/recommended']
     }
   ]
 };
