@@ -1,6 +1,6 @@
-name: Unit test
+name: Testing
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   vitest:
@@ -16,4 +16,4 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run tests
-        run: npm test -ws
+        run: npm run test
