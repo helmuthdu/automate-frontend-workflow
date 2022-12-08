@@ -1,13 +1,12 @@
 {
-  "name": "@github-actions/app",
+  "name": "@helmuthdu/ui",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest",
     "lint": "npm run lint:css && npm run lint:js",
     "lint:js": "eslint --ext .jsx,.js,.ts,.tsx,.vue --fix src",
     "lint:css": "stylelint --fix src/**/*.{css,scss,vue}"

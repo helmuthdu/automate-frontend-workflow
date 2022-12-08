@@ -11,7 +11,12 @@ module.exports = {
     ecmaVersion: 2021
   },
   plugins: ['@typescript-eslint', 'prettier'],
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:storybook/recommended'
+  ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -20,7 +25,12 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': [
+      'off',
+      {
+        argsIgnorePattern: '^_'
+      }
+    ],
     'prettier/prettier': 'error'
   },
   overrides: [
@@ -39,7 +49,7 @@ module.exports = {
       }
     },
     {
-      files: ['packages/app/src/**/*.[jt]s?(x)', 'packages/app/src/**/*.vue'],
+      files: ['packages/{app,ui}/src/**/*.[jt]s?(x)', 'packages/{app,ui}/src/**/*.vue'],
       parser: 'vue-eslint-parser',
       parserOptions: {
         extraFileExtensions: ['.vue'],

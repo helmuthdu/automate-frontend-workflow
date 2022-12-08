@@ -7,16 +7,15 @@ commit-msg:
 pre-commit:
   parallel: true
   commands:
-    lint:assets:
+    lint:markup:
       glob: '*.{html,json,yml}'
       run: npx prettier --write {staged_files}
-    app:lint:styles:
-      root: 'packages/app/'
+    lint:css:
       glob: '*.{css,scss}'
       run: >
         npx stylelint --fix {staged_files} &&
         npx prettier --write {staged_files}
-    lint:scripts:
+    lint:js:
       glob: '*[!.{spec,test}].{[tj]s,[tj]sx}'
       run: >
         npx eslint --fix {staged_files} && 
