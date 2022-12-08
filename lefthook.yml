@@ -1,24 +1,27 @@
+commit-msg:
+  commands:
+    validate:
+      run: >
+        npx git-conventional-commits commit-msg-hook {1}
+
 pre-commit:
   parallel: true
   commands:
-    app:lint:assets:
-      root: "packages/app/"
+    lint:assets:
       glob: '*.{html,json,yml}'
       run: npx prettier --write {staged_files}
     app:lint:styles:
-      root: "packages/app/"
+      root: 'packages/app/'
       glob: '*.{css,scss}'
       run: >
-        npx prettier --write {staged_files} &&
-        npx stylelint --fix {staged_files}
-    app:lint:scripts:
-      root: "packages/app/"
+        npx stylelint --fix {staged_files} &&
+        npx prettier --write {staged_files}
+    lint:scripts:
       glob: '*[!.{spec,test}].{[tj]s,[tj]sx}'
       run: >
         npx eslint --fix {staged_files} && 
         npx vitest related {staged_files} --passWithNoTests --run --environment jsdom
-    app:test:unit:
-      root: "packages/app/"
+    test:unit:
       glob: '*.{spec,test}.{[tj]s,[tj]sx}'
       run: >
         npx eslint --fix {staged_files} &&
