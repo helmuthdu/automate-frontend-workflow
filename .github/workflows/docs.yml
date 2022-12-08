@@ -32,14 +32,16 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
-      - name: Build docs
+      - name: Build Storybook
         run: npm run storybook:build
-      - name: Setup Pages
+      - name: Build Vitepress
+        run: npm run docs:build
+      - name: Setup pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: 'storybook-static'
+          path: 'docs/.vitepress/dist'
 
   # Deployment job
   deploy:
