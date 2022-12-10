@@ -13,4 +13,8 @@ module.exports = {
     config.base = "./";
     return config;
   },
+  env: (config) => ({
+    ...config,
+    STORYBOOK_BASE_URL: process.env.NODE_ENV === 'production' ? 'https://helmuthdu.github.io/automated-frontend-workflow/storybook/' : '',
+  }),
 };
