@@ -4,11 +4,27 @@ In a world where robots have not yet taken our place, we still have to deal with
 
 In software development, there are also repetitive tasks that require manual intervention to complete the entire development phase. It's not just coding, there are other steps such as code/performance analysis, testing, build, and deployment, to name a few, and they can become a dull process, especially when you have to trigger them or do them manually.
 
-The tooling used as part of the front-end development process ensures everything is working or is done as expected. Common examples are git, ESLint (linter), jest (testing), and cypress (integration/e2e).
+The tooling used as part of the front-end development process ensures everything is working or is done as expected. Besides the bundler, other common examples are [ESLint](http://eslint.org) (linter), [Prettier](http://prettier.io) (formatter), [Jest](https://jestjs.io) (testing), and [Cypress](https://www.cypress.io) (e2e).
 
 >If you are interested in learning about these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
 
-In this article, you will learn how to use popular front-end tooling and how to integrate and automate them within your workflow.
+In this article, you will learn how to integrate modern front-end tooling and automate them within your workflow.
+
+## The Project Demo
+
+The goal is to build a modern monorepo project using:
+
+- [Vite](https://vitejs.dev): Fast bundler to create web projects
+- [Vue](http://vuejs.org): An approachable, performant and versatile framework for building web user interfaces.
+- [Vitest](http://vitest.dev): A Vite-native fast unit test framework.
+- [VitePress](https://vitepress.vuejs.org) Modern SSG framework built on top of Vite.
+- [Storybook](http://storybook.js.org): Storybook is a frontend workshop for building UI components and pages in isolation.
+- [Prettier](http://prettier.io): An opinionated code formatter.
+- [ESlint](http://eslint.org): Statically analyzes your code to quickly find problems.
+- [TypeScript](https://www.typescriptlang.org/): A strongly typed programming language that builds on JavaScript.
+- [Changesets](https://github.com/changesets/changesets): A way to manage your versioning and changelogs with a focus on monorepos
+
+![project_overview.png](docs/public/project_overview.png)
 
 ## Git hooks
 
@@ -80,6 +96,6 @@ pre-commit:
 
 ### Docs
 
-### Deploy
+### Release
 
 ## Conclusion
