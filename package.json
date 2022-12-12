@@ -28,6 +28,7 @@
   "homepage": "https://github.com/helmuthdu/github-actions#readme",
   "devDependencies": {
     "@babel/core": "^7.20.5",
+    "@changesets/cli": "^2.25.2",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@storybook/addon-actions": "^6.5.14",
     "@storybook/addon-essentials": "^6.5.14",
