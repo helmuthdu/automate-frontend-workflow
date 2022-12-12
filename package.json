@@ -11,7 +11,9 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "storybook": "start-storybook -p 6006",
-    "storybook:build": "build-storybook -o docs/public/storybook"
+    "storybook:build": "build-storybook -o docs/public/storybook",
+    "changeset-create": "changeset",
+    "changeset-apply": "changeset version"
   },
   "repository": {
     "type": "git",
