@@ -1,6 +1,6 @@
 # Automated Modern Frontend Workflow
 
-In a world where robots and the IA have not yet taken our place, we still have to deal with repetitive tasks. We are constantly trying to find the easiest and laziest way to accomplish something, which some people call efficiency. By letting the machine do the tedious part, it could give us more time to work or spend on interesting stuff.
+In a world where robots have not yet taken our place, we still have to deal with repetitive tasks. We are constantly trying to find the easiest and laziest way to accomplish something, which some people call efficiency. By letting the machine do the tedious part, it could give us more time to work or spend on interesting stuff.
 
 In software development, there are also repetitive tasks that require manual intervention to complete the entire development phase. It's not just coding, there are other steps such as code/performance analysis, testing, build, and deployment, to name a few, and they can become a dull process, especially when you have to trigger or do them manually.
 
@@ -19,12 +19,12 @@ The goal is to build a modern mono-repo project using:
 - [TypeScript](https://www.typescriptlang.org/): A strongly typed programming language that builds on JavaScript.
 - [Vite](https://vitejs.dev): Fast bundler to create web projects
 - [Vitest](http://vitest.dev): A Vite-native fast unit test framework.
-- [VitePress](https://vitepress.vuejs.org) Modern SSG framework built on top of Vite.
+- [VitePress](https://vitepress.vuejs.org): Modern SSG framework built on top of Vite.
 - [Storybook](http://storybook.js.org): Storybook is a frontend workshop for building UI components and pages in isolation.
 - [Prettier](http://prettier.io): An opinionated code formatter.
 - [ESlint](http://eslint.org): Statically analyzes your code to quickly find problems.
 - [Stylelint](https://stylelint.io): A modern linter that helps you avoid errors and enforce conventions in your styles.
-- [Changesets](https://github.com/changesets/changesets): A way to manage your versioning and changelogs with a focus on mono repo
+- [Changesets](https://github.com/changesets/changesets): A way to manage your versioning and changelogs with a focus on mono repo.
 
 ![project_overview.png](docs/public/project_overview.png)
 
@@ -409,7 +409,7 @@ Git has a way to fire off custom scripts when certain actions occur, such as `co
 - `pre-commit`: Check for errors and enforce project coding standards.
 - `pre-push`: Run tests to ensure working software
 
-You can [create them manually](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), or use [lefthook](https://github.com/evilmartians/lefthook) to simplify your work.
+You can [create them manually](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), or use [lefthook](https://github.com/evilmartians/lefthook) to simplify the process.
 
 #### Lefthook
 
@@ -421,16 +421,14 @@ To install [lefthook](https://github.com/evilmartians/lefthook), open the termin
 npm install -D lefthook
 ```
 
-After installing, it will generate a `lefthook.yml` file which can be customized.
-
-For example, you want to do some checks and validations before committing the code. First, you want to ensure that the git commit follows the  [git-conventional-commits](https://github.com/qoomon/git-conventional-commits). Next, use [prettier](http://prettier.io), [eslint](http://eslint.org), and [stylelint](https://stylelint.io) to check, format, and fix any file which will be committed and run any test related with [vitest](http://vitest.dev) depending on the filetype.
+After installed, it will generate a `lefthook.yml` file which can be customized. Now, you can perform code analysis and validations before committing the code. You can ensure that the git commit follows the [git-conventional-commits](https://github.com/qoomon/git-conventional-commits), and use [Prettier](http://prettier.io), [ESLint](http://eslint.org), and [Stylelint](https://stylelint.io) to check, format, and fix any file which will be committed and run any test related with [vitest](http://vitest.dev) depending on the filetype.
 
 - For `.html`, `.json`, and `.yml` files, reformat with [prettier](http://prettier.io)
 - For `.css` and `.scss` files, check the styles with [stylelint](https://stylelint.io) and [prettier](http://prettier.io) after.
 - For `.js` and `.ts` files, excluding tests, run [eslint](http://eslint.org) and check related tests with [vitest](http://vitest.dev) after.
-- For `.spec.js` and `.spec.ts` tests files run [eslint](http://eslint.org) and the tests with [vitest](http://vitest.dev) after.
+- For `.spec.js` and `.spec.ts` tests files, run [eslint](http://eslint.org) and the tests with [vitest](http://vitest.dev) after.
 
-To complete, all tasks should run in parallel. To start, you initialize the git-conventional-commits with `npx git-conventional-commits init` command and then you update the `lefthook.yml` as follows:
+To complete, all tasks should run in parallel. To start, you initialize the git-conventional-commits with `npx git-conventional-commits init` command, and then you update the `lefthook.yml` as follows:
 
 ```yaml
 commit-msg:
@@ -466,11 +464,11 @@ That's it, now every time you commit your code these commands will run automatic
 
 ## GitHub Actions
 
-GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline. You can create workflows that build and test every pull request to your repository or deploy merged pull requests to production.
+GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline. You can create workflows that build and test every pull request to your repository, or deploy merged pull requests to production.
 
 The GitHub Actions workflows are located in the `.github/workflows` folder and are composed by the:
 
-- `Workflow`: A workflow is a configurable automated process that will run one or more jobs.
+- `Workflow`: A workflow is a configurable-automated process that will run one or more jobs.
 - `Events`: An event is a specific activity in a repository that triggers a workflow run.
 - `Jobs`: A job is a set of steps in a workflow that executes on the same runner. Each step is either a shell script that will be executed or an action that will be run.
 - `Runners`: A runner is a server that runs your workflows when they're triggered. Each runner can run a single job at a time.
@@ -480,7 +478,7 @@ Do not worry, you will understand better those processes with the examples below
 
 ### Code Analysis
 
-To ensure code quality the code should be checked, validated, and reported. You create a new workflow named `Code scanning`, which should run `on` every `push` to the `main` branch, you want to be able to manually generate a new result, it should have only one `concurrency` process, so if it is running while a new commit is pushed it will be canceled and restarted. This workflow should `runs-on` a Linux machine with `ubuntu-latest`. It should have the proper `permissions` to `write` a report at the end. In the next `steps`, it has to perform a `checkout` action to fetch the code, and do another action to `setup-node` with the `node-version` 16 with `cache` enabled for all `npm` packages so it can run faster next time it runs, install all dependencies with `npm ci` command and finally generate the report with `npm run linter:report` command and execute an upload action to the CodeQL with the result.
+To ensure code quality, the code should be checked, validated, and reported. You create a new workflow named `Code scanning`, which should run `on` every `push` to `main` branch, it should be able to manually generate a new result, it should have only one `concurrency` process, so if it is running while a new commit is pushed it will be canceled and restarted. This workflow should `runs-on` a Linux machine with `ubuntu-latest`. It should have the proper `permissions` to `write` a report at the end. For the `steps`, it has to perform a `checkout` action to fetch the code, and do another action to `setup-node` with the `node-version` 16 with `cache` enabled for all `npm` packages, so it can run faster next time it runs, install all dependencies with `npm ci` command and finally generate the report with `npm run linter:report` command and execute an upload action to the CodeQL with the result.
 
 ```yaml
 # code-scanning.yml
@@ -530,15 +528,15 @@ jobs:
           wait-for-processing: true
 ```
 
-After creating this workflow you can go to your GitHub repo and run it manually to check the results. You can trigger this action by clicking in the `Actions` Tab -> `Code scanning` Workflow -> `Run workflow` Dropdown -> `Run workflow` Button.
+After creating this workflow, you can go to your GitHub repo and run it manually to check the results. You can trigger this action by clicking in the `Actions` Tab -> `Code scanning` Workflow -> `Run workflow` Dropdown -> `Run workflow` Button.
 
 ![github_trigger_action.png](docs/public/github_trigger_action.png)
 
-To see the result go to the `Security` -> `Code scanning` session.
+To see the result, go to the `Security` -> `Code scanning` session.
 
 ![github_code_analysis_report.png](docs/public/github_code_analysis_report.png)
 
-The missing part is that these checks should also run on any code which will be submitted thru a PR in the project and block any change which does not follow the required rules.
+The missing part is that these checks should also run on any code which will be submitted through a PR in the project and block any change which does not follow the required rules.
 
 #### Linters
 
@@ -577,7 +575,7 @@ jobs:
 
 #### Testing
 
-It should run similarly to the Linters workflow but execute the `npm run test` command instead.
+It should run similarly to the Linters workflow, but execute the `npm run test` command instead.
 
 ```yaml
 # testing.yml
@@ -697,4 +695,4 @@ jobs:
 
 ## Conclusion
 
-GitHub Actions are a very powerful tool that can help you in your daily job, and you just hit the tip of the iceberg. To learn more check the [official documentation](https://docs.github.com/en/actions) and take a look at some [starter workflows](https://github.com/actions/starter-workflows).
+GitHub Actions are a powerful tool that can help you in your daily job, and you just hit the tip of the iceberg. To learn more, check the [official documentation](https://docs.github.com/en/actions) and take a look at some [starter workflows](https://github.com/actions/starter-workflows).
