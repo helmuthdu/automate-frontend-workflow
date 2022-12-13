@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest --run --passWithNoTests",
     "lint": "npm run lint:css && npm run lint:js",
     "lint:js": "eslint --ext .jsx,.js,.ts,.tsx,.vue --fix src",
     "lint:css": "stylelint --fix src/**/*.{css,scss,vue}"

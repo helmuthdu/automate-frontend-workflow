@@ -7,7 +7,7 @@ commit-msg:
 pre-commit:
   parallel: true
   commands:
-    lint:markup:
+    lint:misc:
       glob: '*.{html,json,yml}'
       run: npx prettier --write {staged_files}
     lint:css:
