@@ -49,7 +49,7 @@ module.exports = {
       }
     },
     {
-      files: ['packages/{app,ui}/src/**/*.[jt]s?(x)', 'packages/{app,ui}/src/**/*.vue'],
+      files: ['packages/**/src/**/*.vue'],
       parser: 'vue-eslint-parser',
       parserOptions: {
         extraFileExtensions: ['.vue'],
