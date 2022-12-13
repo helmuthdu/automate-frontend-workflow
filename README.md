@@ -1,32 +1,407 @@
-# Automated Frontend Workflow
+# Automated Modern Frontend Workflow
 
-In a world where robots have not yet taken our place, we still have to deal with repetitive tasks. We are constantly trying to find the easiest and laziest way to accomplish something, some people call it efficiency. By letting the machine do the tedious part, it could give us more time to work or spend on interesting stuff.
+In a world where robots and the IA have not yet taken our place, we still have to deal with repetitive tasks. We are constantly trying to find the easiest and laziest way to accomplish something, which some people call efficiency. By letting the machine do the tedious part, it could give us more time to work or spend on interesting stuff.
 
-In software development, there are also repetitive tasks that require manual intervention to complete the entire development phase. It's not just coding, there are other steps such as code/performance analysis, testing, build, and deployment, to name a few, and they can become a dull process, especially when you have to trigger them or do them manually.
+In software development, there are also repetitive tasks that require manual intervention to complete the entire development phase. It's not just coding, there are other steps such as code/performance analysis, testing, build, and deployment, to name a few, and they can become a dull process, especially when you have to trigger or do them manually.
 
 The tooling used as part of the front-end development process ensures everything is working or is done as expected. Besides the bundler, other common examples are [ESLint](http://eslint.org) (linter), [Prettier](http://prettier.io) (formatter), [Jest](https://jestjs.io) (testing), and [Cypress](https://www.cypress.io) (e2e).
 
->If you are interested in learning about these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
+> If you are interested in learning about these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
 
-In this article, you will learn how to integrate modern front-end tooling and automate them within your workflow.
+In this article, you will learn how to create, add and automate common front-end tools within your workflow.
 
-## The Project Demo
+## The Project
 
-The goal is to build a modern monorepo project using:
+The goal is to build a modern mono-repo project using:
 
-- [Vite](https://vitejs.dev): Fast bundler to create web projects
 - [Vue](http://vuejs.org): An approachable, performant and versatile framework for building web user interfaces.
+- [Sass](https://sass-lang.com): CSS with superpowers.
+- [TypeScript](https://www.typescriptlang.org/): A strongly typed programming language that builds on JavaScript.
+- [Vite](https://vitejs.dev): Fast bundler to create web projects
 - [Vitest](http://vitest.dev): A Vite-native fast unit test framework.
 - [VitePress](https://vitepress.vuejs.org) Modern SSG framework built on top of Vite.
 - [Storybook](http://storybook.js.org): Storybook is a frontend workshop for building UI components and pages in isolation.
 - [Prettier](http://prettier.io): An opinionated code formatter.
 - [ESlint](http://eslint.org): Statically analyzes your code to quickly find problems.
-- [TypeScript](https://www.typescriptlang.org/): A strongly typed programming language that builds on JavaScript.
-- [Changesets](https://github.com/changesets/changesets): A way to manage your versioning and changelogs with a focus on monorepos
+- [Stylelint](https://stylelint.io): A modern linter that helps you avoid errors and enforce conventions in your styles.
+- [Changesets](https://github.com/changesets/changesets): A way to manage your versioning and changelogs with a focus on mono repo
 
 ![project_overview.png](docs/public/project_overview.png)
 
-## Git hooks
+Most of the steps can be manually adjusted to your preferable JS Library or framework, like React, Svelte or Angular. You can check the final result in the following link: [https://github.com/helmuthdu/automated-frontend-workflow](https://github.com/helmuthdu/automated-frontend-workflow)
+
+### Setup
+
+To start, open the terminal, create a new folder and initialize the project.
+
+```shell
+mkdir automated-frontend-workflow
+cd automated-frontend-workflow
+npm init
+```
+
+After completed. Open the newest created `package.json` file and add the [workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) config to it:
+
+```json
+...
+"workspaces": [
+  "packages/*"
+]
+```
+
+#### Prettier
+
+Install [Prettier](http://prettier.io):
+
+```shell
+npm i -D prettier
+```
+
+Create a `.prettierrc` file.
+
+```json
+{
+  "arrowParens": "avoid",
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "htmlWhitespaceSensitivity": "ignore",
+  "printWidth": 120,
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "none",
+  "useTabs": false,
+  "vueIndentScriptAndStyle": false
+}
+```
+
+#### Sass
+
+Install [Sass](https://sass-lang.com):
+
+```shell
+npm i -D sass
+```
+
+#### TypeScript
+
+Install [TypeScript](https://www.typescriptlang.org):
+
+```shell
+npm i -D typescript
+```
+
+Create a `tsconfig.json` file.
+
+```json
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["vitest/globals"]
+  },
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "ESNext"
+    }
+  }
+}
+```
+
+Create a `tsconfig.node.json` file.
+
+```json
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts"]
+}
+```
+
+#### Vite
+
+Install [Vite](https://vitejs.dev):
+
+```shell
+npm i -D vite @vitejs/plugin-vue vue vue-tsc
+```
+
+Create a `vite.config.ts` file.
+
+```typescript
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()]
+});
+```
+
+#### Vitest
+
+Install [Vitest](http://vitest.dev):
+
+```shell
+npm i -D vitest jsdom @vue/test-utils
+```
+
+Create a `vitest.config.ts` file.
+
+```typescript
+/// <reference types="vitest" />
+
+import { defineConfig } from 'vite';
+import Vue from '@vitejs/plugin-vue';
+
+export default defineConfig({
+  plugins: [Vue()],
+  test: {
+    globals: true,
+    environment: 'jsdom'
+  }
+});
+```
+
+Update the `package.json` file by adding these new commands:
+
+```json
+"scripts": {
+  ...
+  "test": "vitest",
+},
+```
+
+#### VitePress
+
+Install [VitePress](https://vitepress.vuejs.org):
+
+```shell
+npm i -D vitepress
+```
+
+Create a `docs/.vitepress/config.ts` file.
+
+```typescript
+export default {
+  title: 'Automated Frontend Workflow',
+  description: 'Frontend Tooling made Easy',
+  base: 'https://helmuthdu.github.io/automated-frontend-workflow/'
+}
+```
+
+> The `base` property should reflect your git project.
+
+Create a `docs/index.md` file.
+
+```markdown
+# Hello VitePress
+
+[Go to Storybook](https://helmuthdu.github.io/automated-frontend-workflow/storybook)
+```
+
+Update the `package.json` file by adding these new commands:
+
+```json
+"scripts": {
+  ...
+  "docs:dev": "vitepress dev docs",
+  "docs:build": "vitepress build docs",
+  "docs:preview": "vitepress preview docs"
+},
+```
+
+#### Storybook
+
+Install [Storybook](http://storybook.js.org):
+
+```shell
+npx sb init --builder @storybook/builder-vite
+```
+
+Open the `.storybook/.main.js` file and configure it as follows.
+
+```typescript
+module.exports = {
+  stories: ['../packages/**/*.stories.mdx', '../packages/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
+  framework: '@storybook/vue3',
+  core: {
+    builder: '@storybook/builder-vite'
+  },
+  features: {
+    storyStoreV7: true
+  },
+  async viteFinal(config, options) {
+    config.base = "./";
+    return config;
+  },
+  env: (config) => ({
+    ...config,
+    STORYBOOK_BASE_URL: process.env.NODE_ENV === 'production' ? 'https://helmuthdu.github.io/automated-frontend-workflow/storybook/' : '',
+  }),
+};
+```
+
+> The `STORYBOOK_BASE_URL` property should reflect your git project.
+
+Create a `.storybook/manager-head.html` file.
+
+```html
+<!-- .storybook/manager-head.html -->
+<base href="%STORYBOOK_BASE_URL%" target="_blank">
+<meta name="description" content="Components for my awesome project" key="desc" />
+```
+
+#### ESLint
+
+Install [ESLint](http://eslint.org):
+
+```shell
+npm i -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser @microsoft/eslint-formatter-sarif eslint-config-prettier eslint-plugin-prettier eslint-plugin-vue vue-eslint-parser @vue/eslint-config-typescript
+```
+
+Create a `.eslintrc.cjs` file.
+
+```javascript
+module.exports = {
+  root: true,
+  env: {
+    browser: true,
+    es2021: true,
+    node: true
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+    ecmaVersion: 2021
+  },
+  plugins: ['@typescript-eslint', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:storybook/recommended'
+  ],
+  rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'off',
+      {
+        argsIgnorePattern: '^_'
+      }
+    ],
+    'prettier/prettier': 'error'
+  },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        // The core 'no-unused-vars' rules (in the eslint:recommeded ruleset)
+        // does not work with type definitions
+        'no-unused-vars': 'off'
+      }
+    },
+    {
+      files: ['**/__tests__/*.{j,t}s?(x)', 'packages/**/src/**/*.spec.{j,t}s?(x)'],
+      env: {
+        jest: true
+      }
+    },
+    {
+      files: ['packages/**/src/**/*.vue'],
+      parser: 'vue-eslint-parser',
+      parserOptions: {
+        extraFileExtensions: ['.vue'],
+        ecmaFeatures: {
+          jsx: true
+        },
+        ecmaVersion: 2021
+      },
+      extends: ['plugin:vue/vue3-recommended', '@vue/typescript/recommended', 'plugin:prettier/recommended']
+    }
+  ]
+};
+```
+
+Update the `package.json` file by adding these new commands:
+
+```json
+"scripts": {
+  ...
+  "lint": "npm run lint -ws",
+  "lint:report": "eslint --ext .jsx,.js,.ts,.tsx,.vue --fix --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif packages/**/src",
+},
+```
+
+#### Stylelint
+
+Install [Stylelint](https://stylelint.io):
+
+```shell
+npm i -D postcss postcss-html stylelint stylelint-config-prettier stylelint-config-recommended-vue stylelint-config-standard-scss
+```
+
+Create a `.stylelintrc` file.
+
+```json
+{
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-recommended-vue/scss", "stylelint-config-prettier"],
+  "rules": {
+    "selector-class-pattern": [
+      "^.([a-z0-9-]+)?(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$",
+      { "resolveNestedSelectors": true }
+    ]
+  }
+}
+```
+
+## GitHub
+
+[GitHub](https://github.com), Inc. is an Internet hosting service for software development and version control using Git.
+
+### GitHub Integration
+
+Create a new repository in [GitHub](https://github.com), open the terminal inside the project, and configure it:
+
+> Replace the `GITHUB_USER` and the `REPO_NAME` variables with your GitHub user and repository name.
+
+```shell
+GITHUB_USER=helmuthdu
+REPO_NAME=automated-frontend-workflow
+```
+
+```shell
+git init
+git add README.md
+git commit -m "feat: project setup"
+git branch -M main
+git remote add origin https://github.com/$GITHUB_USER/$REPO_NAME.git
+git push -u origin main
+```
+
+### Git hooks
 
 Git has a way to fire off custom scripts when certain actions occur, such as `commit` and `push`. There is a [variety of hooks available](https://git-scm.com/docs/githooks), but you can start with these:
 
@@ -34,29 +409,28 @@ Git has a way to fire off custom scripts when certain actions occur, such as `co
 - `pre-commit`: Check for errors and enforce project coding standards.
 - `pre-push`: Run tests to ensure working software
 
-You can [create them manually](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), or use [lefthook](https://github.com/evilmartians/lefthook) to simplify the work.
+You can [create them manually](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), or use [lefthook](https://github.com/evilmartians/lefthook) to simplify your work.
 
-### Lefthook
+#### Lefthook
 
 [Lefthook](https://github.com/evilmartians/lefthook) is a fast and powerful Git hooks manager for Node.js and any other type of project written in Go.
 
 To install [lefthook](https://github.com/evilmartians/lefthook), open the terminal in your project:
 
-```sh
+```shell
 npm install -D lefthook
 ```
 
 After installing, it will generate a `lefthook.yml` file which can be customized.
 
-For the example project, do some checks and validations before committing the code, all tasks should run in parallel, and use [prettier](http://prettier.io), [eslint](http://eslint.org) or [stylelint](https://stylelint.io) to check, format and fix any file which will be committed and check and run any test related with [vitest](http://vitest.dev) depending on the filetype.
+For example, you want to do some checks and validations before committing the code. First, you want to ensure that the git commit follows the  [git-conventional-commits](https://github.com/qoomon/git-conventional-commits). Next, use [prettier](http://prettier.io), [eslint](http://eslint.org), and [stylelint](https://stylelint.io) to check, format, and fix any file which will be committed and run any test related with [vitest](http://vitest.dev) depending on the filetype.
 
 - For `.html`, `.json`, and `.yml` files, reformat with [prettier](http://prettier.io)
 - For `.css` and `.scss` files, check the styles with [stylelint](https://stylelint.io) and [prettier](http://prettier.io) after.
 - For `.js` and `.ts` files, excluding tests, run [eslint](http://eslint.org) and check related tests with [vitest](http://vitest.dev) after.
 - For `.spec.js` and `.spec.ts` tests files run [eslint](http://eslint.org) and the tests with [vitest](http://vitest.dev) after.
 
-This would be the result:
-
+To complete, all tasks should run in parallel. To start, you initialize the git-conventional-commits with `npx git-conventional-commits init` command and then you update the `lefthook.yml` as follows:
 
 ```yaml
 commit-msg:
@@ -68,15 +442,15 @@ commit-msg:
 pre-commit:
   parallel: true
   commands:
-    lint:assets:
+    lint:misc:
       glob: '*.{html,json,yml}'
       run: npx prettier --write {staged_files}
-    lint:styles:
+    lint:css:
       glob: '*.{css,scss}'
       run: >
         npx stylelint --fix {staged_files} &&
         npx prettier --write {staged_files}
-    lint:scripts:
+    lint:js:
       glob: '*[!.{spec,test}].{[tj]s,[tj]sx}'
       run: >
         npx eslint --fix {staged_files} && 
@@ -88,14 +462,239 @@ pre-commit:
         npx vitest {staged_files} --run --environment jsdom
 ```
 
+That's it, now every time you commit your code these commands will run automatically
+
 ## GitHub Actions
 
-### Linters
+GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline. You can create workflows that build and test every pull request to your repository or deploy merged pull requests to production.
 
-### Testing
+The GitHub Actions workflows are located in the `.github/workflows` folder and are composed by the:
+
+- `Workflow`: A workflow is a configurable automated process that will run one or more jobs.
+- `Events`: An event is a specific activity in a repository that triggers a workflow run.
+- `Jobs`: A job is a set of steps in a workflow that executes on the same runner. Each step is either a shell script that will be executed or an action that will be run.
+- `Runners`: A runner is a server that runs your workflows when they're triggered. Each runner can run a single job at a time.
+- `Actions`: An action is a custom application for the GitHub Actions platform that performs a complex but frequently repeated task.
+
+Do not worry, you will understand better those processes with the examples below showing common cases in a real-life project.
+
+### Code Analysis
+
+To ensure code quality the code should be checked, validated, and reported. You create a new workflow named `Code scanning`, which should run `on` every `push` to the `main` branch, you want to be able to manually generate a new result, it should have only one `concurrency` process, so if it is running while a new commit is pushed it will be canceled and restarted. This workflow should `runs-on` a Linux machine with `ubuntu-latest`. It should have the proper `permissions` to `write` a report at the end. In the next `steps`, it has to perform a `checkout` action to fetch the code, and do another action to `setup-node` with the `node-version` 16 with `cache` enabled for all `npm` packages so it can run faster next time it runs, install all dependencies with `npm ci` command and finally generate the report with `npm run linter:report` command and execute an upload action to the CodeQL with the result.
+
+```yaml
+# code-scanning.yml
+name: Code scanning
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eslint:
+    name: Eslint
+    runs-on: ubuntu-latest
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint:report
+        continue-on-error: true
+
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: eslint-results.sarif
+          wait-for-processing: true
+```
+
+After creating this workflow you can go to your GitHub repo and run it manually to check the results. You can trigger this action by clicking in the `Actions` Tab -> `Code scanning` Workflow -> `Run workflow` Dropdown -> `Run workflow` Button.
+
+![github_trigger_action.png](docs/public/github_trigger_action.png)
+
+To see the result go to the `Security` -> `Code scanning` session.
+
+![github_code_analysis_report.png](docs/public/github_code_analysis_report.png)
+
+The missing part is that these checks should also run on any code which will be submitted thru a PR in the project and block any change which does not follow the required rules.
+
+#### Linters
+
+For the next workflow, you create a new one named `Linter`, which should run `on` every `pull_request`, it should have only one `concurrency` process and `runs-on` a Linux machine with `ubuntu-latest`. For the next `steps`, it has to perform a `checkout` action to fetch the code, do another action to `setup-node` with the `node-version` 16 with the `cache` enabled for all `npm` packages, install all dependencies with `npm ci` command and finally run the linters with `npm run linter` command.
+
+```yaml
+# linter.yml
+name: Linter
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eslint:
+    name: Eslint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+```
+
+#### Testing
+
+It should run similarly to the Linters workflow but execute the `npm run test` command instead.
+
+```yaml
+# testing.yml
+name: Testing
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vitest:
+    name: Vitest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test
+```
+
+### Branch Protection
+
+Adding the workflows is just one step, you also need to configure your branch's rules. Open your repository in GitHub and go to `Settings` -> `Branches`.
+
+![github_settings_branches.png](docs/public/github_settings_branches.png)
+
+Click in the `Add rule` button, insert the repo name your want this rule to be associated with at the beginning and make sure the workflows are set as required in the `Require branches to be up to date before merging` option.
+
+![github_settings_branches_rule.png](docs/public/github_settings_branches_add_rule.png)
+
+To complete, click on the `Create` button at bottom of the page.
 
 ### Docs
 
-### Release
+For the documentation, we have a scenario where there is VitePress and Storybook need to publish together. Before creating the workflow, enable the pages in the repo settings, setting the Build and Deploy source to `Github Actions`.
+
+![github_settings_pages.png](docs/public/github_settings_pages.png)
+
+Create a workflow named `Docs`, which should run `on` every `push` to the `main` branch, it should be able to be manually triggered, and also run only one `concurrency` process at a time. The jobs can be a break into two steps, one for `build` and another for `deploy`. In the build job, it should be similar to the Linter/Testing until the install dependencies part then run the storybook build with the target to the public folder inside the docs, when VitePress runs the `build` command it will copy the storybook files together and after everything is built trigger and action to setup GitHub pages and update generated page artifact. For deployment, add another job, grant the permissions to write, and call the deploy pages action.
+
+```yaml
+# docs.yml
+name: Docs
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches:
+      - 'main'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Storybook
+        run: npm run storybook:build
+
+      - name: Build VitePress
+        run: npm run docs:build
+
+      - name: Setup pages
+        uses: actions/configure-pages@v2
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'docs/.vitepress/dist'
+
+  # Deployment job
+  deploy:
+    name: Deploy
+    # Add a dependency to the build job
+    needs: build
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+```
 
 ## Conclusion
+
+GitHub Actions are a very powerful tool that can help you in your daily job, and you just hit the tip of the iceberg. To learn more check the [official documentation](https://docs.github.com/en/actions) and take a look at some [starter workflows](https://github.com/actions/starter-workflows).
