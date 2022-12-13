@@ -10,10 +10,6 @@ jobs:
   eslint:
     name: Eslint
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
