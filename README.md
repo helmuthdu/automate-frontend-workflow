@@ -222,6 +222,8 @@ npm i -D vitepress
 
 Create a `docs/.vitepress/config.ts` file.
 
+> The `base` property should reflect your git project.
+
 ```typescript
 export default {
   title: 'Automated Frontend Workflow',
@@ -229,8 +231,6 @@ export default {
   base: 'https://helmuthdu.github.io/automated-frontend-workflow/'
 };
 ```
-
-> The `base` property should reflect your git project.
 
 Create a `docs/index.md` file.
 
