@@ -1,6 +1,6 @@
 # Automated Modern Frontend Workflow
 
-In a world where robots have not yet taken our place, we still have to deal with repetitive tasks. We are constantly trying to find the easiest and laziest way to accomplish something, which some people call efficiency. By letting the machine do the tedious part, it could give us more time to work or spend on interesting stuff.
+In a world where robots have not yet taken our place, we still have to deal with repetitive tasks. We are constantly trying to find the easiest and laziest way to accomplish something, some people call it efficiency. By letting the machine do the tedious part, it could give us more time to work or spend on interesting stuff.
 
 In software development, there are also repetitive tasks that require manual intervention to complete the entire development phase. It's not just coding, there are other steps such as code/performance analysis, testing, build, and deployment, to name a few, and they can become a dull process, especially when you have to trigger or do them manually.
 
@@ -12,23 +12,23 @@ In this article, you will learn how to create, add and automate common front-end
 
 ## The Project
 
-The goal is to build a modern mono-repo project using:
+The goal is to build a modern mono-repo project using the following stack:
 
-- [Vue](http://vuejs.org): An approachable, performant and versatile framework for building web user interfaces.
+- [Vue](http://vuejs.org): An approachable, performant, and versatile framework for building web user interfaces.
 - [Sass](https://sass-lang.com): CSS with superpowers.
 - [TypeScript](https://www.typescriptlang.org/): A strongly typed programming language that builds on JavaScript.
 - [Vite](https://vitejs.dev): Fast bundler to create web projects
 - [Vitest](http://vitest.dev): A Vite-native fast unit test framework.
 - [VitePress](https://vitepress.vuejs.org): Modern SSG framework built on top of Vite.
-- [Storybook](http://storybook.js.org): Storybook is a frontend workshop for building UI components and pages in isolation.
+- [Storybook](http://storybook.js.org): Storybook is a front-end workshop for building UI components and pages in isolation.
 - [Prettier](http://prettier.io): An opinionated code formatter.
-- [ESlint](http://eslint.org): Statically analyzes your code to quickly find problems.
+- [ESLint](http://eslint.org): Statically analyzes your code to quickly find problems.
 - [Stylelint](https://stylelint.io): A modern linter that helps you avoid errors and enforce conventions in your styles.
 - [Changesets](https://github.com/changesets/changesets): A way to manage your versioning and changelogs with a focus on mono repo.
 
 ![project_overview.png](docs/public/project_overview.png)
 
-Most of the steps can be manually adjusted to your preferable JS Library or framework, like React, Svelte or Angular. You can check the final result in the following link: [https://github.com/helmuthdu/automated-frontend-workflow](https://github.com/helmuthdu/automated-frontend-workflow)
+Most steps can be manually adjusted to your preferred JS library or framework, like React, Svelte or Angular. You can check the final result at the following link: [https://github.com/helmuthdu/automated-frontend-workflow](https://github.com/helmuthdu/automated-frontend-workflow)
 
 ### Setup
 
@@ -202,7 +202,7 @@ export default {
   title: 'Automated Frontend Workflow',
   description: 'Frontend Tooling made Easy',
   base: 'https://helmuthdu.github.io/automated-frontend-workflow/'
-}
+};
 ```
 
 > The `base` property should reflect your git project.
@@ -248,13 +248,14 @@ module.exports = {
     storyStoreV7: true
   },
   async viteFinal(config, options) {
-    config.base = "./";
+    config.base = './';
     return config;
   },
-  env: (config) => ({
+  env: config => ({
     ...config,
-    STORYBOOK_BASE_URL: process.env.NODE_ENV === 'production' ? 'https://helmuthdu.github.io/automated-frontend-workflow/storybook/' : '',
-  }),
+    STORYBOOK_BASE_URL:
+      process.env.NODE_ENV === 'production' ? 'https://helmuthdu.github.io/automated-frontend-workflow/storybook/' : ''
+  })
 };
 ```
 
@@ -264,7 +265,7 @@ Create a `.storybook/manager-head.html` file.
 
 ```html
 <!-- .storybook/manager-head.html -->
-<base href="%STORYBOOK_BASE_URL%" target="_blank">
+<base href="%STORYBOOK_BASE_URL%" target="_blank" />
 <meta name="description" content="Components for my awesome project" key="desc" />
 ```
 
@@ -385,12 +386,7 @@ Create a `.stylelintrc` file.
 
 Create a new repository in [GitHub](https://github.com), open the terminal inside the project, and configure it:
 
-> Replace the `GITHUB_USER` and the `REPO_NAME` variables with your GitHub user and repository name.
-
-```shell
-GITHUB_USER=helmuthdu
-REPO_NAME=automated-frontend-workflow
-```
+> Replace the `$GITHUB_USER` and the `$REPO_NAME` variables with your [GitHub](https://github.com) user and repository name.
 
 ```shell
 git init
@@ -409,26 +405,26 @@ Git has a way to fire off custom scripts when certain actions occur, such as `co
 - `pre-commit`: Check for errors and enforce project coding standards.
 - `pre-push`: Run tests to ensure working software
 
-You can [create them manually](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), or use [lefthook](https://github.com/evilmartians/lefthook) to simplify the process.
+You can [create them manually](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), or use [Lefthook](https://github.com/evilmartians/lefthook) to simplify the process.
 
 #### Lefthook
 
 [Lefthook](https://github.com/evilmartians/lefthook) is a fast and powerful Git hooks manager for Node.js and any other type of project written in Go.
 
-To install [lefthook](https://github.com/evilmartians/lefthook), open the terminal in your project:
+To install [Lefthook](https://github.com/evilmartians/lefthook), open the terminal in your project:
 
 ```shell
 npm install -D lefthook
 ```
 
-After installed, it will generate a `lefthook.yml` file which can be customized. Now, you can perform code analysis and validations before committing the code. You can ensure that the git commit follows the [git-conventional-commits](https://github.com/qoomon/git-conventional-commits), and use [Prettier](http://prettier.io), [ESLint](http://eslint.org), and [Stylelint](https://stylelint.io) to check, format, and fix any file which will be committed and run any test related with [vitest](http://vitest.dev) depending on the filetype.
+After installed, it will generate a `lefthook.yml` file which can be customized to perform a static code analysis before committing the code. For example, it can ensure that the git commit follows the [git-conventional-commits](https://github.com/qoomon/git-conventional-commits), and use [Prettier](http://prettier.io), [ESLint](http://eslint.org), and [Stylelint](https://stylelint.io) to check, format, and fix any file which will be committed and run any test related with [Vitest](http://vitest.dev) depending on the filetype and run each in parallel.
 
-- For `.html`, `.json`, and `.yml` files, reformat with [prettier](http://prettier.io)
-- For `.css` and `.scss` files, check the styles with [stylelint](https://stylelint.io) and [prettier](http://prettier.io) after.
-- For `.js` and `.ts` files, excluding tests, run [eslint](http://eslint.org) and check related tests with [vitest](http://vitest.dev) after.
-- For `.spec.js` and `.spec.ts` tests files, run [eslint](http://eslint.org) and the tests with [vitest](http://vitest.dev) after.
+- For `.html`, `.json`, and `.yml` files, reformat with [Prettier](http://prettier.io)
+- For `.css` and `.scss` files, check the styles with [Stylelint](https://stylelint.io) and [Prettier](http://prettier.io) after.
+- For `.js` and `.ts` files, excluding tests, run [ESLint](http://eslint.org) and check related tests with [Vitest](http://vitest.dev) after.
+- For `.spec.js` and `.spec.ts` tests files, run [ESLint](http://eslint.org), and the tests with [Vitest](http://vitest.dev) after.
 
-To complete, all tasks should run in parallel. To start, you initialize the git-conventional-commits with `npx git-conventional-commits init` command, and then you update the `lefthook.yml` as follows:
+To start, initialize the git-conventional-commits with `npx git-conventional-commits init` command, and then you update the `lefthook.yml` as follows:
 
 ```yaml
 commit-msg:
@@ -464,71 +460,103 @@ That's it, now every time you commit your code these commands will run automatic
 
 ## GitHub Actions
 
-GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline. You can create workflows that build and test every pull request to your repository, or deploy merged pull requests to production.
+[GitHub Actions](https://docs.github.com/en/actions) is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline. You can create workflows that build and test every pull request to your repository, or deploy merged pull requests to production.
 
-The GitHub Actions workflows are located in the `.github/workflows` folder and are composed by the:
+The [GitHub Actions](https://docs.github.com/en/actions) workflows are located in the `.github/workflows` folder and are composed of:
 
 - `Workflow`: A workflow is a configurable-automated process that will run one or more jobs.
 - `Events`: An event is a specific activity in a repository that triggers a workflow run.
 - `Jobs`: A job is a set of steps in a workflow that executes on the same runner. Each step is either a shell script that will be executed or an action that will be run.
 - `Runners`: A runner is a server that runs your workflows when they're triggered. Each runner can run a single job at a time.
-- `Actions`: An action is a custom application for the GitHub Actions platform that performs a complex but frequently repeated task.
+- `Actions`: An action is a custom application for the [GitHub Actions](https://docs.github.com/en/actions) platform that performs a complex but frequently repeated task.
 
 Do not worry, you will understand better those processes with the examples below showing common cases in a real-life project.
 
 ### Code Analysis
 
-To ensure code quality, the code should be checked, validated, and reported. You create a new workflow named `Code scanning`, which should run `on` every `push` to `main` branch, it should be able to manually generate a new result, it should have only one `concurrency` process, so if it is running while a new commit is pushed it will be canceled and restarted. This workflow should `runs-on` a Linux machine with `ubuntu-latest`. It should have the proper `permissions` to `write` a report at the end. For the `steps`, it has to perform a `checkout` action to fetch the code, and do another action to `setup-node` with the `node-version` 16 with `cache` enabled for all `npm` packages, so it can run faster next time it runs, install all dependencies with `npm ci` command and finally generate the report with `npm run linter:report` command and execute an upload action to the CodeQL with the result.
+To ensure code quality, the code should be checked, validated, and reported.
 
-```yaml
-# code-scanning.yml
-name: Code scanning
+1. Start by creating a new file in your GitHub repository called `.github/workflows/code-analysis.yml`. This file will define the workflow that your GitHub Action will follow.
+2. In the `.github/workflows/code-analysis.yml` file, you can use the `on` keyword to specify when the workflow should be triggered. For example, you might want to trigger the workflow when a new code is pushed to the repository with the option to trigger it manually. You can do this by adding the following lines to the file:
+   ```yaml
+   on:
+     push:
+       branches:
+         - 'main'
+     workflow_dispatch:
+   ```
+3. You can set the `concurrency` property to run only one instance, so if it is running while a new commit is pushed it will be canceled and restarted.
+   ```yaml
+   concurrency: ${{ github.workflow }}-${{ github.ref }}
+   ```
+4. It might be required to set some permissions to read and write content. You can check all available permissions by [clicking here](https://docs.github.com/en/rest/actions/permissions).
+   ```yaml
+   permissions:
+     # required for all workflows
+     security-events: write
+     # only required for workflows in private repositories
+     actions: read
+     contents: read
+   ```
+5. Actions can be cached to accelerate the process. For example, in the Node.js setup action, it is possible to cache the NPM packages, so it won't have to fetch everything every time the job is running.
+   ```yaml
+   - name: Setup Node.js
+     uses: actions/setup-node@v3
+     with:
+       node-version: 16
+       cache: 'npm'
+   ```
+6. To complete, in the job section, specify the steps that the GitHub Action should perform. For example, you might want to first check out the code from the repository, generate a code analysis report and upload it to GitHub:
 
-on:
-  push:
-    branches:
-      - 'main'
-  workflow_dispatch:
+   ```yaml
+   # code-scanning.yml
+   name: Code scanning
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+   on:
+     push:
+       branches:
+         - 'main'
+     workflow_dispatch:
 
-jobs:
-  eslint:
-    name: Eslint
-    runs-on: ubuntu-latest
-    permissions:
-      # required for all workflows
-      security-events: write
-      # only required for workflows in private repositories
-      actions: read
-      contents: read
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+   concurrency:
+     group: ${{ github.workflow }}-${{ github.ref }}
+     cancel-in-progress: true
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
+   jobs:
+     eslint:
+       name: Eslint
+       runs-on: ubuntu-latest
+       permissions:
+         # required for all workflows
+         security-events: write
+         # only required for workflows in private repositories
+         actions: read
+         contents: read
+       steps:
+         - name: Checkout Repository
+           uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm ci
+         - name: Setup Node.js
+           uses: actions/setup-node@v3
+           with:
+             node-version: 16
+             cache: 'npm'
 
-      - name: Run linter
-        run: npm run lint:report
-        continue-on-error: true
+         - name: Install dependencies
+           run: npm ci
 
-      - name: Upload analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: eslint-results.sarif
-          wait-for-processing: true
-```
+         - name: Run linter
+           run: npm run lint:report
+           continue-on-error: true
 
-After creating this workflow, you can go to your GitHub repo and run it manually to check the results. You can trigger this action by clicking in the `Actions` Tab -> `Code scanning` Workflow -> `Run workflow` Dropdown -> `Run workflow` Button.
+         - name: Upload analysis results to GitHub
+           uses: github/codeql-action/upload-sarif@v2
+           with:
+             sarif_file: eslint-results.sarif
+             wait-for-processing: true
+   ```
+
+After creating the workflow, you can go to your [GitHub](https://github.com) repo and run it manually to check the results. You can trigger this action by clicking in the `Actions` Tab -> `Code scanning` Workflow -> `Run workflow` Dropdown -> `Run workflow` Button.
 
 ![github_trigger_action.png](docs/public/github_trigger_action.png)
 
@@ -540,13 +568,30 @@ The missing part is that these checks should also run on any code which will be 
 
 #### Linters
 
-For the next workflow, you create a new one named `Linter`, which should run `on` every `pull_request`, it should have only one `concurrency` process and `runs-on` a Linux machine with `ubuntu-latest`. For the next `steps`, it has to perform a `checkout` action to fetch the code, do another action to `setup-node` with the `node-version` 16 with the `cache` enabled for all `npm` packages, install all dependencies with `npm ci` command and finally run the linters with `npm run linter` command.
+Linters, in short, are tools to help you improve your code. It can be configured to run on every Pull Request (PR) to guarantee that any new code has the same standards defined.
+
+1. Similar to the previous workflow, start by creating a new file in your GitHub repository called `.github/workflows/linter.yml`.
+2. In the `on` keyword, set it to run on `pull_request`.
+   ```yaml
+   on: [pull_request]
+   ```
+3. Configure the `concurrency` to have only one workflow running at a time.
+   ```yaml
+   concurrency: ${{ github.workflow }}-${{ github.ref }}
+   ```
+4. Define the Runner. Usually, the `ubuntu-latest` runner is a safe choice.
+   ```yaml
+   jobs:
+     eslint:
+       runs-on: ubuntu-latest
+   ```
+5. Next, add all steps to perform a `checkout` action to fetch the code, do another action to `setup-node` with the `node-version` 16 with the `cache` enabled for all `npm` packages, install all dependencies with `npm ci` command and finally run the linters with `npm run linter` command
 
 ```yaml
 # linter.yml
 name: Linter
 
-on: pull_request
+on: [pull_request]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -575,13 +620,13 @@ jobs:
 
 #### Testing
 
-It should run similarly to the Linters workflow, but execute the `npm run test` command instead.
+It should run similarly to the Linters workflow, but executing the `npm run test` command instead.
 
 ```yaml
 # testing.yml
 name: Testing
 
-on: pull_request
+on: [pull_request]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -610,11 +655,11 @@ jobs:
 
 ### Branch Protection
 
-Adding the workflows is just one step, you also need to configure your branch's rules. Open your repository in GitHub and go to `Settings` -> `Branches`.
+Adding the workflows is just one step, you also need to configure your branch's rules. Open your repository in [GitHub](https://github.com) and go to `Settings` -> `Branches`.
 
 ![github_settings_branches.png](docs/public/github_settings_branches.png)
 
-Click in the `Add rule` button, insert the repo name your want this rule to be associated with at the beginning and make sure the workflows are set as required in the `Require branches to be up to date before merging` option.
+Click in the `Add rule` button, insert the repo name your want this rule to be associated with at the beginning, and make sure the workflows are set as required in the `Require branches to be up to date before merging` option.
 
 ![github_settings_branches_rule.png](docs/public/github_settings_branches_add_rule.png)
 
@@ -622,11 +667,33 @@ To complete, click on the `Create` button at bottom of the page.
 
 ### Docs
 
-For the documentation, we have a scenario where there is VitePress and Storybook need to publish together. Before creating the workflow, enable the pages in the repo settings, setting the Build and Deploy source to `Github Actions`.
+For the documentation, we have a scenario where there is VitePress and Storybook need to publish together. Before creating the workflow, enable the pages in the repo settings.
 
 ![github_settings_pages.png](docs/public/github_settings_pages.png)
 
-Create a workflow named `Docs`, which should run `on` every `push` to the `main` branch, it should be able to be manually triggered, and also run only one `concurrency` process at a time. The jobs can be a break into two steps, one for `build` and another for `deploy`. In the build job, it should be similar to the Linter/Testing until the install dependencies part then run the storybook build with the target to the public folder inside the docs, when VitePress runs the `build` command it will copy the storybook files together and after everything is built trigger and action to setup GitHub pages and update generated page artifact. For deployment, add another job, grant the permissions to write, and call the deploy pages action.
+1. Similar to the previous workflow, start by creating a new file in your GitHub repository called `.github/workflows/docs.yml`.
+2. In the `on` keyword, set it to run on `push` to the `main` branch, also add option to trigger it manually with `workflow_dispatch`.
+   ```yaml
+   on:
+     # Runs on pushes targeting the default branch
+     push:
+       branches:
+         - 'main'
+     # Allows you to run this workflow manually from the Actions tab
+     workflow_dispatch:
+   ```
+3. Configure the `concurrency` to have only one workflow running at a time.
+   ```yaml
+   concurrency: ${{ github.workflow }}-${{ github.ref }}
+   ```
+4. Define the Runner to the `ubuntu-latest`.
+   ```yaml
+   jobs:
+     eslint:
+       runs-on: ubuntu-latest
+   ```
+5. Add all actions to perform a `checkout` to fetch the code, do another action to `setup-node`, install all dependencies with the `npm ci` command, build storybook with the target to the public folder inside the docs, so when VitePress runs the `build` command it will copy the storybook files together and after everything is built trigger and action to setup GitHub Pages and update generated page artifact. 
+6. To complete, add another job, grant the permissions to write, and call the deploy pages action.
 
 ```yaml
 # docs.yml
@@ -695,4 +762,4 @@ jobs:
 
 ## Conclusion
 
-GitHub Actions are a powerful tool that can help you in your daily job, and you just hit the tip of the iceberg. To learn more, check the [official documentation](https://docs.github.com/en/actions) and take a look at some [starter workflows](https://github.com/actions/starter-workflows).
+[GitHub Actions](https://docs.github.com/en/actions) are a powerful tool that can help you in your daily job, and you just hit the tip of the iceberg. To learn more, check the [official documentation](https://docs.github.com/en/actions) and take a look at some [starter workflows](https://github.com/actions/starter-workflows).
