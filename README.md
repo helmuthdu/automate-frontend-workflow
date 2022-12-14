@@ -2,7 +2,9 @@
 
 In a world where robots have not yet taken our place, we still have to deal with repetitive tasks. We are constantly trying to find the easiest and laziest way to accomplish something, some people call it efficiency. By letting the machine do the tedious part, it could give us more time to work or spend on interesting stuff.
 
-In software development, there are also repetitive tasks that require manual intervention to complete the entire development phase. It's not just coding, there are other steps such as code/performance analysis, testing, build, and deployment, to name a few, and they can become a dull process, especially when you have to trigger or do them manually.
+In short, automation means **reducing software development complexity** that anyone could use or understand.
+
+During the development, there are also repetitive tasks that require manual intervention. It's not just coding, there are other steps such as code/performance analysis, testing, build, and deployment, to name a few, and they can become a dull process, especially when you have to trigger or do them manually.
 
 The tooling used as part of the front-end development process ensures everything is working or is done as expected. Besides the bundler, other common examples are [ESLint](http://eslint.org) (linter), [Prettier](http://prettier.io) (formatter), [Jest](https://jestjs.io) (testing), and [Cypress](https://www.cypress.io) (e2e).
 
@@ -10,7 +12,30 @@ The tooling used as part of the front-end development process ensures everything
 
 In this article, you will learn how to create, add and automate common front-end tools within your workflow.
 
-## The Project
+1. [Project](#project)
+   1. [Setup](#setup)
+      1. [Prettier](#prettier)
+      2. [Sass](#sass)
+      3. [TypeScript](#typescript)
+      4. [Vite](#vite)
+      5. [Vitest](#vitest)
+      6. [VitePress](#vitePress)
+      7. [Storybook](#storybook)
+      8. [ESLint](#eslint)
+      9. [StyleLint](#stylelint)
+2. [Git](#git)
+   1. [Git setup](#git-setup)
+   2. [Git hooks](#git-hooks)
+      1. [Lefthook](#lefthook)
+3. [GitHub Actions](#github-actions)
+   1. [Code Analysis](#code-analysis)
+      1. [Linters](#linters)
+      2. [Testing](#testing)
+      3. [Branch Protection](#branch-protection)
+   2. [Docs](#docs) 
+4. [Conclusion](#conclusion)
+
+## Project
 
 The goal is to build a modern mono-repo project using the following stack:
 
@@ -378,13 +403,13 @@ Create a `.stylelintrc` file.
 }
 ```
 
-## GitHub
+## Git
 
-[GitHub](https://github.com), Inc. is an Internet hosting service for software development and version control using Git.
+Git is a distributed version control system for tracking changes in files, and can be used for collaboratively developing source code during software development.
 
-### GitHub Integration
+### Git setup
 
-Create a new repository in [GitHub](https://github.com), open the terminal inside the project, and configure it:
+Create a new repository in [GitHub](https://github.com), open the terminal inside the project, initialize git, add a commit and a remote, and push the changes:
 
 > Replace the `$GITHUB_USER` and the `$REPO_NAME` variables with your [GitHub](https://github.com) user and repository name.
 
