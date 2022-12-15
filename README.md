@@ -6,9 +6,11 @@ An automated frontend workflow is a set of processes and tools that are used to 
 
 In short, **automation for software development means reducing complexity** to something that anyone could use and understand.
 
-> If you are interested in learning about these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
+> If you are interested in learning about some of these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
 
 In this article, you will learn how to create, add and automate common frontend tools within your workflow.
+
+## Table of Contents
 
 1. [Project](#project)
    1. [Setup](#setup)
@@ -27,10 +29,10 @@ In this article, you will learn how to create, add and automate common frontend 
       1. [Lefthook](#lefthook)
 3. [GitHub Actions](#github-actions)
    1. [Code Analysis](#code-analysis)
-      1. [Linters](#linters)
-      2. [Testing](#testing)
-      3. [Branch Protection](#branch-protection)
-   2. [Docs](#docs) 
+   2. [Linters](#linters)
+   3. [Testing](#testing)
+   4. [Branch Protection](#branch-protection)
+   5. [Docs](#docs)
 4. [Conclusion](#conclusion)
 
 ## Project
@@ -47,7 +49,6 @@ The goal is to build a modern monorepo project using the following stack:
 - [Prettier](http://prettier.io): An opinionated code formatter.
 - [ESLint](http://eslint.org): Statically analyzes your code to quickly find problems.
 - [Stylelint](https://stylelint.io): A modern linter that helps you avoid errors and enforce conventions in your styles.
-- [Changesets](https://github.com/changesets/changesets): A way to manage your versioning and changelogs with a focus on mono repo.
 
 ![project_overview.png](docs/public/project_overview.png)
 
@@ -55,7 +56,7 @@ Most steps can be manually adjusted to your preferred JS library or framework, l
 
 ### Setup
 
-To start, open the terminal, create a new folder and initialize the project.
+To start, let's create a new project. Open the terminal, create a new folder and initialize the project.
 
 ```shell
 mkdir automated-frontend-workflow
@@ -63,7 +64,7 @@ cd automated-frontend-workflow
 npm init
 ```
 
-After completion. Open the newly created `package.json` file and add the [workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) config to it:
+After completion. Open the newly created `package.json` file and add the [workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) config to set it as a mono-repo.
 
 ```json
 ...
@@ -101,6 +102,8 @@ Create a `.prettierrc` file.
   "vueIndentScriptAndStyle": false
 }
 ```
+
+You can find more information about these options in the [official documentation](https://prettier.io/docs/en/options.html).
 
 #### Sass
 
@@ -248,6 +251,8 @@ npx sb init --builder @storybook/builder-vite
 
 Open the `.storybook/.main.js` file and configure it as follows.
 
+> The `STORYBOOK_BASE_URL` property should reflect your git project.
+
 ```typescript
 module.exports = {
   stories: ['../packages/**/*.stories.mdx', '../packages/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -271,14 +276,22 @@ module.exports = {
 };
 ```
 
-> The `STORYBOOK_BASE_URL` property should reflect your git project.
-
 Create a `.storybook/manager-head.html` file.
 
 ```html
 <!-- .storybook/manager-head.html -->
 <base href="%STORYBOOK_BASE_URL%" target="_blank" />
 <meta name="description" content="Components for my awesome project" key="desc" />
+```
+
+Update the `package.json` file to output the build result to the `docs/public/storybook` folder, this will be important to deploy our docs and the storybook on the same GitHub page.
+
+```json
+"scripts": {
+   ...
+   "storybook": "start-storybook -p 6006",
+   "storybook:build": "build-storybook -o docs/public/storybook"
+},
 ```
 
 #### ESLint
@@ -423,7 +436,7 @@ You can [create them manually](https://git-scm.com/book/en/v2/Customizing-Git-Gi
 
 [Lefthook](https://github.com/evilmartians/lefthook) is a fast and powerful Git hooks manager for Node.js and any other type of project written in Go.
 
-To install [Lefthook](https://github.com/evilmartians/lefthook), open the terminal in your project:
+To install, open the terminal in your project:
 
 ```shell
 npm install -D lefthook
@@ -436,7 +449,7 @@ After installation, it will generate a `lefthook.yml` file which can be customiz
 - For `.js` and `.ts` files, excluding tests, run [ESLint](http://eslint.org) and check related tests with [Vitest](http://vitest.dev) after.
 - For `.spec.js` and `.spec.ts` tests files, run [ESLint](http://eslint.org), and the tests with [Vitest](http://vitest.dev) after.
 
-To start, initialize the git-conventional-commits with `npx git-conventional-commits init` command, and then you update the `lefthook.yml` as follows:
+To start, initialize the git-conventional-commits by running the `npx git-conventional-commits init` command, and then update the `lefthook.yml` as follows:
 
 ```yaml
 commit-msg:
@@ -476,17 +489,17 @@ That's it, now every time you commit your code these commands will run automatic
 
 The [GitHub Actions](https://docs.github.com/en/actions) workflows are located in the `.github/workflows` folder and are composed of:
 
-- `Workflow`: A workflow is a configurable-automated process that will run one or more jobs.
-- `Events`: An event is a specific activity in a repository that triggers a workflow run.
-- `Jobs`: A job is a set of steps in a workflow that executes on the same runner. Each step is either a shell script that will be executed or an action that will be run.
-- `Runners`: A runner is a server that runs your workflows when they're triggered. Each runner can run a single job at a time.
-- `Actions`: An action is a custom application for the [GitHub Actions](https://docs.github.com/en/actions) platform that performs a complex but frequently repeated task.
+- **Workflow**: A workflow is a configurable-automated process that will run one or more jobs.
+- **Events**: An event is a specific activity in a repository that triggers a workflow run.
+- **Jobs**: A job is a set of steps in a workflow that executes on the same runner. Each step is either a shell script that will be executed or an action that will be run.
+- **Runners**: A runner is a server that runs your workflows when they're triggered. Each runner can run a single job at a time.
+- **Actions**: An action is a custom application for the [GitHub Actions](https://docs.github.com/en/actions) platform that performs a complex but frequently repeated task.
 
-Do not worry, you will understand better those processes with the examples below showing common cases in a real-life project.
+Do not worry, you will understand better those processes with the examples below showing common cases.
 
 ### Code Analysis
 
-To ensure code quality, the code should be checked, validated, and reported.
+To ensure code quality, the code should be checked, tested, and reported.
 
 1. Start by creating a new file in your GitHub repository called `.github/workflows/code-analysis.yml`. This file will define the workflow that your GitHub Action will follow.
 2. In the `.github/workflows/code-analysis.yml` file, you can use the `on` keyword to specify when the workflow should be triggered. For example, you might want to trigger the workflow when a new code is pushed to the repository with the option to trigger it manually. You can do this by adding the following lines to the file:
@@ -506,7 +519,7 @@ To ensure code quality, the code should be checked, validated, and reported.
      group: ${{ github.workflow }}-${{ github.ref }}
      cancel-in-progress: true
    ```
-4. It might be required to set some permissions to read and write content. You can check all available permissions by [clicking here](https://docs.github.com/en/rest/actions/permissions).
+4. Furthermore, it is required to set some permissions to read and write content. You can check all available permissions by [clicking here](https://docs.github.com/en/rest/actions/permissions).
    ```yaml
    permissions:
      # required for all workflows
@@ -583,7 +596,7 @@ To see the result, go to the `Security` -> `Code scanning` section.
 
 The missing part is that these checks should also run on any code which will be submitted through a PR in the project and block any change which does not follow the required rules.
 
-#### Linters
+### Linters
 
 Linters, in short, are tools to help you improve your code. It can be configured to run on every Pull Request (PR) to guarantee that any new code has the same standards defined.
 
@@ -604,7 +617,7 @@ Linters, in short, are tools to help you improve your code. It can be configured
      eslint:
        runs-on: ubuntu-latest
    ```
-5. Next, add all steps to perform a `checkout` action to fetch the code, do another action to `setup-node` with the `node-version` 16 with the `cache` enabled for all `npm` packages, install all dependencies with `npm ci` command and finally run the linters with `npm run linter` command
+5. Additionally, add all steps to perform a `checkout` action to fetch the code, do another action to `setup-node` with the `node-version` 16 with the `cache` enabled for all `npm` packages, install all dependencies with `npm ci` command and finally run the linters with `npm run linter` command
 
 ```yaml
 # linter.yml
@@ -637,7 +650,7 @@ jobs:
         run: npm run lint
 ```
 
-#### Testing
+### Testing
 
 It should run similarly to the Linters workflow but executing the `npm run test` command instead.
 
@@ -691,7 +704,7 @@ For the documentation, we have a scenario where there is VitePress and Storybook
 ![github_settings_pages.png](docs/public/github_settings_pages.png)
 
 1. Similar to the previous workflow, start by creating a new file in your GitHub repository called `.github/workflows/docs.yml`.
-2. In the `on` keyword, set it to run on `push` to the `main` branch, also add option to trigger it manually with `workflow_dispatch`.
+2. In the `on` keyword, set it to run on `push` to the `main` branch, also add the option to trigger it manually with `workflow_dispatch`.
    ```yaml
    on:
      # Runs on pushes targeting the default branch
@@ -707,8 +720,8 @@ For the documentation, we have a scenario where there is VitePress and Storybook
      eslint:
        runs-on: ubuntu-latest
    ```
-4. Add all actions to perform a `checkout` to fetch the code, do another action to `setup-node`, install all dependencies with the `npm ci` command, build storybook with the target to the public folder inside the docs, so when VitePress runs the `build` command it will copy the storybook files together and after everything is built trigger and action to setup GitHub Pages and update generated page artifact. 
-5. To complete, add another job, grant the permissions to write, and call the deploy pages action.
+4. Add all actions to perform a `checkout` to fetch the code, do another action to `setup-node`, install all dependencies with the `npm ci` command, build storybook with the target to the public folder inside the docs, so when VitePress runs the `build` command it will copy the storybook files together and after everything is built trigger an action to setup GitHub Pages and update generated page artifact.
+5. To complete, add another job, grant the permissions to write, and call the deployment action.
 
 ```yaml
 # docs.yml
@@ -776,4 +789,6 @@ jobs:
 
 ## Conclusion
 
-[GitHub Actions](https://docs.github.com/en/actions) are a powerful tool that can help you in your daily job, and you just hit the tip of the iceberg. To learn more, check the [official documentation](https://docs.github.com/en/actions) and take a look at some [starter workflows](https://github.com/actions/starter-workflows).
+The tooling used as part of the front-end development process ensures everything is working or is done as expected, and automation is designed to make it easier for developers to work without having to worry about these details.
+
+This is just the tip of the iceberg, to learn more, check the [GitHub Actions documentation](https://docs.github.com/en/actions) and take a look at some [starter workflows](https://github.com/actions/starter-workflows).
