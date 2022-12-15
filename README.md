@@ -2,15 +2,13 @@
 
 In a world where robots have not yet taken our place, we still have to deal with repetitive tasks. We are constantly trying to find the easiest and laziest way to accomplish something, some people call it efficiency. By letting the machine do the tedious part, it could give us more time to work or spend on interesting stuff.
 
-In short, **automation for software development means reducing complexity** to something that anyone could use or understand.
+An automated frontend workflow is a set of processes and tools that are used to manage and streamline the development of a website or application. This typically involves tasks such as code linting (e.g. [Prettier](http://prettier.io), [ESLint](http://eslint.org)), building, testing (e.g. [Jest](https://jestjs.io)), and deployment, and is designed to make it easier for developers to work on the front end without having to worry about these details. Automated frontend workflows can be created using a variety of tools, such as build tools (e.g. [Webpack](https://webpack.js.org), [Vite](https://vitejs.dev)), and continuous integration platforms (e.g. [Jenkins](https://www.jenkins.io), [GitHub Actions](https://docs.github.com/en/actions)).
 
-During the development, there are also repetitive tasks that require manual intervention. It's not just coding, there are other steps such as code/performance analysis, testing, build, and deployment, to name a few, and they can become a dull process, especially when you have to trigger or do them manually.
-
-The tooling used as part of the front-end development process ensures everything is working or is done as expected. Besides the bundler, other common examples are [ESLint](http://eslint.org) (linter), [Prettier](http://prettier.io) (formatter), [Jest](https://jestjs.io) (testing), and [Cypress](https://www.cypress.io) (e2e).
+In short, **automation for software development means reducing complexity** to something that anyone could use and understand.
 
 > If you are interested in learning about these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
 
-In this article, you will learn how to create, add and automate common front-end tools within your workflow.
+In this article, you will learn how to create, add and automate common frontend tools within your workflow.
 
 1. [Project](#project)
    1. [Setup](#setup)
@@ -37,7 +35,7 @@ In this article, you will learn how to create, add and automate common front-end
 
 ## Project
 
-The goal is to build a modern mono-repo project using the following stack:
+The goal is to build a modern monorepo project using the following stack:
 
 - [Vue](http://vuejs.org): An approachable, performant, and versatile framework for building web user interfaces.
 - [Sass](https://sass-lang.com): CSS with superpowers.
@@ -45,7 +43,7 @@ The goal is to build a modern mono-repo project using the following stack:
 - [Vite](https://vitejs.dev): Fast bundler to create web projects
 - [Vitest](http://vitest.dev): A Vite-native fast unit test framework.
 - [VitePress](https://vitepress.vuejs.org): Modern SSG framework built on top of Vite.
-- [Storybook](http://storybook.js.org): Storybook is a front-end workshop for building UI components and pages in isolation.
+- [Storybook](http://storybook.js.org): Storybook is a frontend workshop for building UI components and pages in isolation.
 - [Prettier](http://prettier.io): An opinionated code formatter.
 - [ESLint](http://eslint.org): Statically analyzes your code to quickly find problems.
 - [Stylelint](https://stylelint.io): A modern linter that helps you avoid errors and enforce conventions in your styles.
@@ -65,7 +63,7 @@ cd automated-frontend-workflow
 npm init
 ```
 
-After completed. Open the newest created `package.json` file and add the [workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) config to it:
+After completion. Open the newly created `package.json` file and add the [workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) config to it:
 
 ```json
 ...
@@ -73,6 +71,10 @@ After completed. Open the newest created `package.json` file and add the [worksp
   "packages/*"
 ]
 ```
+
+A monorepo is a single repository that contains multiple projects. The main reason for it is to streamline work within a dev team that maintains multiple apps using shared pieces of code, for example, a User Interface library.
+
+Next, you have to install and configure the common tools which will be used during the development.
 
 #### Prettier
 
@@ -135,26 +137,11 @@ Create a `tsconfig.json` file.
     "noEmit": true,
     "types": ["vitest/globals"]
   },
-  "references": [{ "path": "./tsconfig.node.json" }],
   "ts-node": {
     "compilerOptions": {
       "module": "ESNext"
     }
   }
-}
-```
-
-Create a `tsconfig.node.json` file.
-
-```json
-{
-  "compilerOptions": {
-    "composite": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true
-  },
-  "include": ["vite.config.ts"]
 }
 ```
 
@@ -203,7 +190,7 @@ export default defineConfig({
 });
 ```
 
-Update the `package.json` file by adding these new commands:
+Update the scripts in the `package.json` file by adding this new command:
 
 ```json
 "scripts": {
@@ -222,8 +209,6 @@ npm i -D vitepress
 
 Create a `docs/.vitepress/config.ts` file.
 
-> The `base` property should reflect your git project.
-
 ```typescript
 export default {
   title: 'Automated Frontend Workflow',
@@ -231,6 +216,8 @@ export default {
   base: 'https://helmuthdu.github.io/automated-frontend-workflow/'
 };
 ```
+
+> The `base` property should reflect your git project.
 
 Create a `docs/index.md` file.
 
@@ -240,7 +227,7 @@ Create a `docs/index.md` file.
 [Go to Storybook](https://helmuthdu.github.io/automated-frontend-workflow/storybook)
 ```
 
-Update the `package.json` file by adding these new commands:
+Update the scripts in the `package.json` file by adding these new commands:
 
 ```json
 "scripts": {
@@ -296,7 +283,7 @@ Create a `.storybook/manager-head.html` file.
 
 #### ESLint
 
-Install [ESLint](http://eslint.org):
+Install [ESLint](http://eslint.org) with prettier, typescript and vue support, and give an option to output the result as `sarif` format which will be used later for the GitHub integration.
 
 ```shell
 npm i -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser @microsoft/eslint-formatter-sarif eslint-config-prettier eslint-plugin-prettier eslint-plugin-vue vue-eslint-parser @vue/eslint-config-typescript
@@ -371,7 +358,7 @@ module.exports = {
 };
 ```
 
-Update the `package.json` file by adding these new commands:
+Update the scripts in the `package.json` file by adding these new commands:
 
 ```json
 "scripts": {
@@ -383,13 +370,13 @@ Update the `package.json` file by adding these new commands:
 
 #### Stylelint
 
-Install [Stylelint](https://stylelint.io):
+Install [Stylelint](https://stylelint.io) along with the standard configs, Prettier, Sass, and Vue support.
 
 ```shell
 npm i -D postcss postcss-html stylelint stylelint-config-prettier stylelint-config-recommended-vue stylelint-config-standard-scss
 ```
 
-Create a `.stylelintrc` file.
+Create a `.stylelintrc` file extending these configs. It is included an optional rule to check if the CSS selector follows the [BEM Name Convention](https://getbem.com).
 
 ```json
 {
@@ -442,7 +429,7 @@ To install [Lefthook](https://github.com/evilmartians/lefthook), open the termin
 npm install -D lefthook
 ```
 
-After installed, it will generate a `lefthook.yml` file which can be customized to perform a static code analysis before committing the code. For example, it can ensure that the git commit follows the [git-conventional-commits](https://github.com/qoomon/git-conventional-commits), and use [Prettier](http://prettier.io), [ESLint](http://eslint.org), and [Stylelint](https://stylelint.io) to check, format, and fix any file which will be committed and run any test related with [Vitest](http://vitest.dev) depending on the filetype and run each in parallel.
+After installation, it will generate a `lefthook.yml` file which can be customized to perform a static code analysis before committing the code. For example, it can ensure that the git commit follows the [git-conventional-commits](https://github.com/qoomon/git-conventional-commits), and use [Prettier](http://prettier.io), [ESLint](http://eslint.org), and [Stylelint](https://stylelint.io) to check, format, and fix any file which will be committed and run any test related with [Vitest](http://vitest.dev) depending on the filetype and run each in parallel.
 
 - For `.html`, `.json`, and `.yml` files, reformat with [Prettier](http://prettier.io)
 - For `.css` and `.scss` files, check the styles with [Stylelint](https://stylelint.io) and [Prettier](http://prettier.io) after.
@@ -508,11 +495,16 @@ To ensure code quality, the code should be checked, validated, and reported.
      push:
        branches:
          - 'main'
+     # set this property to enable manual trigger option in GitHub
      workflow_dispatch:
    ```
-3. You can set the `concurrency` property to run only one instance, so if it is running while a new commit is pushed it will be canceled and restarted.
+3. You can set the `concurrency` property to run only one instance, so if it is running while a new commit is pushed it will be canceled and restarted. You can use the [contexts](https://docs.github.com/en/actions/learn-github-actions/contexts) to define a proper key.
    ```yaml
-   concurrency: ${{ github.workflow }}-${{ github.ref }}
+   # github.workflow context to determine the current workflow name
+   # github.ref context to determine the current branch name
+   concurrency:
+     group: ${{ github.workflow }}-${{ github.ref }}
+     cancel-in-progress: true
    ```
 4. It might be required to set some permissions to read and write content. You can check all available permissions by [clicking here](https://docs.github.com/en/rest/actions/permissions).
    ```yaml
@@ -585,7 +577,7 @@ After creating the workflow, you can go to your [GitHub](https://github.com) rep
 
 ![github_trigger_action.png](docs/public/github_trigger_action.png)
 
-To see the result, go to the `Security` -> `Code scanning` session.
+To see the result, go to the `Security` -> `Code scanning` section.
 
 ![github_code_analysis_report.png](docs/public/github_code_analysis_report.png)
 
@@ -602,6 +594,8 @@ Linters, in short, are tools to help you improve your code. It can be configured
    ```
 3. Configure the `concurrency` to have only one workflow running at a time.
    ```yaml
+   # github.workflow context to determine the current workflow name
+   # github.ref context to determine the current branch name
    concurrency: ${{ github.workflow }}-${{ github.ref }}
    ```
 4. Define the Runner. Usually, the `ubuntu-latest` runner is a safe choice.
@@ -618,9 +612,9 @@ name: Linter
 
 on: [pull_request]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+# github.workflow context to determine the current workflow name
+# github.ref context to determine the current branch name
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   eslint:
@@ -653,9 +647,9 @@ name: Testing
 
 on: [pull_request]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+# github.workflow context to determine the current workflow name
+# github.ref context to determine the current branch name
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   vitest:
@@ -680,7 +674,7 @@ jobs:
 
 ### Branch Protection
 
-Adding the workflows is just one step, you also need to configure your branch's rules. Open your repository in [GitHub](https://github.com) and go to `Settings` -> `Branches`.
+Adding the workflows is just one step, you also need to configure the branch rules. Open your repository in [GitHub](https://github.com) and go to `Settings` -> `Branches`.
 
 ![github_settings_branches.png](docs/public/github_settings_branches.png)
 
@@ -707,18 +701,14 @@ For the documentation, we have a scenario where there is VitePress and Storybook
      # Allows you to run this workflow manually from the Actions tab
      workflow_dispatch:
    ```
-3. Configure the `concurrency` to have only one workflow running at a time.
-   ```yaml
-   concurrency: ${{ github.workflow }}-${{ github.ref }}
-   ```
-4. Define the Runner to the `ubuntu-latest`.
+3. Define the Runner to the `ubuntu-latest`.
    ```yaml
    jobs:
      eslint:
        runs-on: ubuntu-latest
    ```
-5. Add all actions to perform a `checkout` to fetch the code, do another action to `setup-node`, install all dependencies with the `npm ci` command, build storybook with the target to the public folder inside the docs, so when VitePress runs the `build` command it will copy the storybook files together and after everything is built trigger and action to setup GitHub Pages and update generated page artifact. 
-6. To complete, add another job, grant the permissions to write, and call the deploy pages action.
+4. Add all actions to perform a `checkout` to fetch the code, do another action to `setup-node`, install all dependencies with the `npm ci` command, build storybook with the target to the public folder inside the docs, so when VitePress runs the `build` command it will copy the storybook files together and after everything is built trigger and action to setup GitHub Pages and update generated page artifact. 
+5. To complete, add another job, grant the permissions to write, and call the deploy pages action.
 
 ```yaml
 # docs.yml
@@ -764,7 +754,6 @@ jobs:
         with:
           path: 'docs/.vitepress/dist'
 
-  # Deployment job
   deploy:
     name: Deploy
     # Add a dependency to the build job
