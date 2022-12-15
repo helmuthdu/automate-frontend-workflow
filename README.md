@@ -14,15 +14,15 @@ In this article, you will learn how to create, add and automate common frontend 
 
 1. [Project](#project)
    1. [Setup](#setup)
-      1. [Prettier](#prettier)
-      2. [Sass](#sass)
-      3. [TypeScript](#typescript)
-      4. [Vite](#vite)
-      5. [Vitest](#vitest)
-      6. [VitePress](#vitePress)
-      7. [Storybook](#storybook)
-      8. [ESLint](#eslint)
-      9. [StyleLint](#stylelint)
+   2. [Prettier](#prettier)
+   3. [Sass](#sass)
+   4. [TypeScript](#typescript)
+   5. [Vite](#vite)
+   6. [Vitest](#vitest)
+   7. [VitePress](#vitePress)
+   8. [Storybook](#storybook)
+   9. [ESLint](#eslint)
+   10. [StyleLint](#stylelint)
 2. [Git](#git)
    1. [Git setup](#git-setup)
    2. [Git hooks](#git-hooks)
@@ -251,8 +251,6 @@ npx sb init --builder @storybook/builder-vite
 
 Open the `.storybook/.main.js` file and configure it as follows.
 
-> The `STORYBOOK_BASE_URL` property should reflect your git project.
-
 ```typescript
 module.exports = {
   stories: ['../packages/**/*.stories.mdx', '../packages/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -275,6 +273,8 @@ module.exports = {
   })
 };
 ```
+
+> The `STORYBOOK_BASE_URL` property should reflect your git project.
 
 Create a `.storybook/manager-head.html` file.
 
@@ -327,11 +327,6 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-unused-vars': [
       'off',
       {
@@ -409,9 +404,7 @@ Git is a distributed version control system for tracking changes in files and ca
 
 ### Git setup
 
-Create a new repository in [GitHub](https://github.com), open the terminal inside the project, initialize git, add a commit and a remote, then push the changes:
-
-> Replace the `$GITHUB_USER` and the `$REPO_NAME` variables with your [GitHub](https://github.com) user and repository name.
+Create a new repository in [GitHub](https://github.com), open the terminal inside the project, initialize git, add a commit and a remote, then push the changes.
 
 ```shell
 git init
@@ -421,6 +414,8 @@ git branch -M main
 git remote add origin https://github.com/$GITHUB_USER/$REPO_NAME.git
 git push -u origin main
 ```
+
+> Replace the `$GITHUB_USER` and the `$REPO_NAME` variables with your [GitHub](https://github.com) user and repository name.
 
 ### Git hooks
 
@@ -789,6 +784,6 @@ jobs:
 
 ## Conclusion
 
-The tooling used as part of the front-end development process ensures everything is working or is done as expected, and automation is designed to make it easier for developers to work without having to worry about these details.
+The tooling used as part of the frontend development process ensures everything is working or is done as expected, and automation is designed to make it easier for developers to work without having to worry about these details.
 
 This is just the tip of the iceberg, to learn more, check the [GitHub Actions documentation](https://docs.github.com/en/actions) and take a look at some [starter workflows](https://github.com/actions/starter-workflows).
