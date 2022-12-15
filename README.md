@@ -4,13 +4,15 @@ In a world where robots have not yet taken our place, we still have to deal with
 
 An automated frontend workflow is a set of processes and tools that are used to manage and streamline the development of the frontend of a website or application. This typically involves tasks such as code linting (e.g. [Prettier](http://prettier.io), [ESLint](http://eslint.org)), building, testing (e.g. [Jest](https://jestjs.io)), and deployment, and is designed to make it easier for developers to work on the frontend without having to worry about these details. Automated frontend workflows can be created using a variety of tools, such as build tools (e.g. [Webpack](https://webpack.js.org), [Vite](https://vitejs.dev)), and continuous integration platforms (e.g. [Jenkins](https://www.jenkins.io/), [Github Actions](https://docs.github.com/en/actions)).
 
-> If you are interested in learning about some of these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
+In short, **automation for software development means reducing complexity** to something that anyone could use and understand.
 
-In short, **automation for software development means reducing complexity** to something that anyone could use or understand.
+> If you are interested in learning about some of these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
 
 In this article, you will learn how to create, add and automate common front-end tools within your workflow.
 
-1. [Project](#project)
+## Table of Contents
+
+1. [The Project](#project)
    1. [Setup](#setup)
       1. [Prettier](#prettier)
       2. [Sass](#sass)
@@ -462,7 +464,7 @@ After installed, it will generate a `lefthook.yml` file which can be customized 
 - For `.js` and `.ts` files, excluding tests, run [ESLint](http://eslint.org) and check related tests with [Vitest](http://vitest.dev) after.
 - For `.spec.js` and `.spec.ts` tests files, run [ESLint](http://eslint.org), and the tests with [Vitest](http://vitest.dev) after.
 
-To start, initialize the git-conventional-commits with `npx git-conventional-commits init` command, and then you update the `lefthook.yml` as follows:
+To start, initialize the git-conventional-commits by running the `npx git-conventional-commits init` command, and then update the `lefthook.yml` as follows:
 
 ```yaml
 commit-msg:
@@ -502,11 +504,11 @@ That's it, now every time you commit your code these commands will run automatic
 
 The [GitHub Actions](https://docs.github.com/en/actions) workflows are located in the `.github/workflows` folder and are composed of:
 
-- `Workflow`: A workflow is a configurable-automated process that will run one or more jobs.
-- `Events`: An event is a specific activity in a repository that triggers a workflow run.
-- `Jobs`: A job is a set of steps in a workflow that executes on the same runner. Each step is either a shell script that will be executed or an action that will be run.
-- `Runners`: A runner is a server that runs your workflows when they're triggered. Each runner can run a single job at a time.
-- `Actions`: An action is a custom application for the [GitHub Actions](https://docs.github.com/en/actions) platform that performs a complex but frequently repeated task.
+- **Workflow**: A workflow is a configurable-automated process that will run one or more jobs.
+- **Events**: An event is a specific activity in a repository that triggers a workflow run.
+- **Jobs**: A job is a set of steps in a workflow that executes on the same runner. Each step is either a shell script that will be executed or an action that will be run.
+- **Runners**: A runner is a server that runs your workflows when they're triggered. Each runner can run a single job at a time.
+- **Actions**: An action is a custom application for the [GitHub Actions](https://docs.github.com/en/actions) platform that performs a complex but frequently repeated task.
 
 Do not worry, you will understand better those processes with the examples below showing common cases.
 
