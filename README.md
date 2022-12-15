@@ -12,7 +12,7 @@ In this article, you will learn how to create, add and automate common front-end
 
 ## Table of Contents
 
-1. [The Project](#project)
+1. [Project](#project)
    1. [Setup](#setup)
       1. [Prettier](#prettier)
       2. [Sass](#sass)
