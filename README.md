@@ -4,11 +4,11 @@ In a world where robots have not yet taken our place, we still have to deal with
 
 An automated frontend workflow is a set of processes and tools that are used to manage and streamline the development of a website or application. This typically involves tasks such as code linting (e.g. [Prettier](http://prettier.io), [ESLint](http://eslint.org)), building, testing (e.g. [Jest](https://jestjs.io)), and deployment, and is designed to make it easier for developers to work on the front end without having to worry about these details. Automated frontend workflows can be created using a variety of tools, such as build tools (e.g. [Webpack](https://webpack.js.org), [Vite](https://vitejs.dev)), and continuous integration platforms (e.g. [Jenkins](https://www.jenkins.io), [GitHub Actions](https://docs.github.com/en/actions)).
 
-In short, **automation for software development means reducing complexity** to something that anyone could use and understand.
-
-> If you are interested in learning about some of these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
+> In short, **automation for software development means reducing complexity** to something that anyone could use and understand.
 
 In this article, you will learn how to create, add and automate common frontend tools within your workflow.
+
+> If you are interested in learning about some of these tools you can check my other article about [Testing in JavaScript](https://dev.to/helmuthdu/spaceships-and-testing-in-javascript-5b3h)
 
 ## Table of Contents
 
@@ -64,7 +64,7 @@ cd automated-frontend-workflow
 npm init
 ```
 
-After completion. Open the newly created `package.json` file and add the [workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) config to set it as a mono-repo.
+After completion. Open the newly created `package.json` file and add the [workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) config to set it as a monorepo.
 
 ```json
 ...
@@ -193,7 +193,7 @@ export default defineConfig({
 });
 ```
 
-Update the scripts in the `package.json` file by adding this new command:
+Update the scripts in the `package.json` file by adding a new command:
 
 ```json
 "scripts": {
@@ -296,7 +296,7 @@ Update the `package.json` file to output the build result to the `docs/public/st
 
 #### ESLint
 
-Install [ESLint](http://eslint.org) with prettier, typescript and vue support, and give an option to output the result as `sarif` format which will be used later for the GitHub integration.
+Install [ESLint](http://eslint.org) with Prettier, TypeScript and Vue support, and add a package to output the result as `sarif` format which will be used later for the GitHub integration.
 
 ```shell
 npm i -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser @microsoft/eslint-formatter-sarif eslint-config-prettier eslint-plugin-prettier eslint-plugin-vue vue-eslint-parser @vue/eslint-config-typescript
