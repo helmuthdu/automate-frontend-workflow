@@ -1,4 +1,4 @@
-# Automated Modern Frontend Workflow
+# Automated Frontend Workflow
 
 In a world where robots have not yet taken our place, we still have to deal with repetitive tasks. We are constantly trying to find the easiest and laziest way to accomplish something, some people call it efficiency. By letting the machine do the tedious part, it could give us more time to work or spend on interesting stuff.
 
@@ -690,7 +690,7 @@ Click in the `Add rule` button, insert the repo name your want this rule to be a
 
 ![github_settings_branches_rule.png](docs/public/github_settings_branches_add_rule.png)
 
-To complete, click on the `Create` button at bottom of the page.
+To complete, click on the `Create` button at the bottom of the page.
 
 ### Docs
 
